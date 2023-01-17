@@ -191,8 +191,8 @@ commentaryRouter.put('/:id', authenticateJWT, async (req, res) => {
             if (updateDone === true || updateDone === false) {
 
                 try {
-                    const ticketData = await client.query('SELECT id,user_id FROM blogbrief WHERE id=$1', [updateId]);
-                    if (test !== ticketData.rows[0]['userId']) {
+                    const commentaryData = await client.query('SELECT id,user_id FROM blogbrief WHERE id=$1', [updateId]);
+                    if (test !== commentaryData.rows[0]['userId']) {
                         res.status(404).json(
                             {
                                 status: "FAIL",

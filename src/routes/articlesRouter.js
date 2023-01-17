@@ -1,17 +1,17 @@
 
 const express = require('express');
 const client = require('../client');
-const ticketsRouter = express.Router();
+const articlesRouter = express.Router();
 const authenticateJWT = require('../middlewares/auth.js')
 
 
 
 
 
-ticketsRouter.get('/', authenticateJWT, async (req, res) => {
+articlesRouter.get('/', authenticateJWT, async (req, res) => {
 
     try {
-        const data = await client.query('SELECT * FROM tickets');
+        const data = await client.query('SELECT * FROM blogbrief');
 
         res.status(200).json(
             {
@@ -32,12 +32,12 @@ ticketsRouter.get('/', authenticateJWT, async (req, res) => {
 })
 
 
-ticketsRouter.get('/:id', authenticateJWT, async (req, res) => {
-    const ticketId = req.params.id
+articlesRouter.get('/:id', authenticateJWT, async (req, res) => {
+    const articlesId = req.params.id
 
-    if (!Number.isNaN(Number(ticketId))) {
+    if (!Number.isNaN(Number(articlesId))) {
         try {
-            const data = await client.query('SELECT * FROM tickets WHERE id=$1', [ticketId]);
+            const data = await client.query('SELECT * FROM blogbrief WHERE id=$1', [articlesId]);
             if (data.rows.length === 1) {
                 res.status(200).json(
                     {
@@ -50,7 +50,7 @@ ticketsRouter.get('/:id', authenticateJWT, async (req, res) => {
                 res.status(404).json(
                     {
                         status: "fail",
-                        message: "id ne correspond à aucun ticket"
+                        message: "id ne correspond pas"
                     }
                 )
             }
@@ -76,7 +76,7 @@ ticketsRouter.get('/:id', authenticateJWT, async (req, res) => {
 })
 
 
-ticketsRouter.post('/', authenticateJWT, async (req, res) => {
+articlesRouter.post('/', authenticateJWT, async (req, res) => {
     console.log(req.body);
 
     const mess = req.body.message
@@ -86,7 +86,7 @@ ticketsRouter.post('/', authenticateJWT, async (req, res) => {
 
     if (mess && userId != null) {
         try {
-            const data = await client.query('INSERT INTO tickets (message, user_id) VALUES ($1,$2) returning *', [mess, userId]);
+            const data = await client.query('INSERT INTO blogbrief (message, user_id) VALUES ($1,$2) returning *', [mess, userId]);
 
             res.status(201).json(
                 {
@@ -117,14 +117,14 @@ ticketsRouter.post('/', authenticateJWT, async (req, res) => {
 })
 
 
-ticketsRouter.delete('/:id', authenticateJWT, async (req, res) => {
+articlesRouter.delete('/:id', authenticateJWT, async (req, res) => {
     const deleteId = req.params.id
     const test = req.userId
 
     if (!Number.isNaN(Number(deleteId))) {
         try {
-            const ticketData = await client.query('SELECT id,user_id FROM tickets WHERE id=$1', [deleteId]);
-            if (test !== ticketData.rows[0]['userId']) {
+            const blogbriefData = await client.query('SELECT id,user_id FROM tickets WHERE id=$1', [deleteId]);
+            if (test !== blogbriefData.rows[0]['userId']) {
                 res.status(404).json(
                     {
                         status: "FAIL",
@@ -134,13 +134,13 @@ ticketsRouter.delete('/:id', authenticateJWT, async (req, res) => {
 
             }
             else {
-                const data = await client.query('DELETE from tickets WHERE id= $1', [deleteId])
+                const data = await client.query('DELETE from blogbrief WHERE id= $1', [deleteId])
 
                 if (data.rowCount === 1) {
                     res.status(200).json(
                         {
                             status: "success",
-                            message: "ticket supprimé"
+                            message: "article supprimé"
                         }
                     )
                 }
@@ -149,7 +149,7 @@ ticketsRouter.delete('/:id', authenticateJWT, async (req, res) => {
                     res.status(404).json(
                         {
                             status: "fail",
-                            message: "id ne correspond à aucun ticket"
+                            message: "id ne correspond pas"
                         }
                     )
                 }
@@ -179,7 +179,7 @@ ticketsRouter.delete('/:id', authenticateJWT, async (req, res) => {
 )
 
 
-ticketsRouter.put('/:id', authenticateJWT, async (req, res) => {
+articlesRouter.put('/:id', authenticateJWT, async (req, res) => {
 
     const updateId = req.params.id
     const updateMess = req.body.message
@@ -191,8 +191,8 @@ ticketsRouter.put('/:id', authenticateJWT, async (req, res) => {
             if (updateDone === true || updateDone === false) {
 
                 try {
-                    const ticketData = await client.query('SELECT id,user_id FROM tickets WHERE id=$1', [updateId]);
-                    if (test !== ticketData.rows[0]['userId']) {
+                    const articlesData = await client.query('SELECT id,user_id FROM blogbrief WHERE id=$1', [updateId]);
+                    if (test !== articlesData.rows[0]['userId']) {
                         res.status(404).json(
                             {
                                 status: "FAIL",
@@ -202,7 +202,7 @@ ticketsRouter.put('/:id', authenticateJWT, async (req, res) => {
 
                     }
                     else {
-                        const data = await client.query('UPDATE tickets SET  done = $3, message = $1 WHERE id = $2 RETURNING *', [updateMess, updateId, updateDone])
+                        const data = await client.query('UPDATE blogbrief SET  done = $3, message = $1 WHERE id = $2 RETURNING *', [updateMess, updateId, updateDone])
 
                         if (data.rowCount > 0) {
                             res.status(201).json({
@@ -256,4 +256,4 @@ ticketsRouter.put('/:id', authenticateJWT, async (req, res) => {
 
 
 
-module.exports = ticketsRouter;
+module.exports = articlesRouter;
