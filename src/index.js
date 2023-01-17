@@ -49,8 +49,8 @@ app.use(function (req, res, next) {
 
 // routes Ticket
 
-//app.use('/api/articles', articlesRouter);
-//app.use('/api/commentary', commentaryRouter);
+app.use('/api/articles', articlesRouter);
+app.use('/api/commentary', commentaryRouter);
 app.use('/api/users', usersRouter);
 
 app.all('*', function (req, res) {
