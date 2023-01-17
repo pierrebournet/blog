@@ -1,24 +1,10 @@
 // imports
-const { json } = require('express');
 const express = require('express');
-require('dotenv').config()
-const articlesRouter = require('./routes/articlesRouter')
-const commentaryRouter = require('./routes/commentaryRouter')
+require('dotenv').config();
+const articlesRouter = require('./routes/articlesRouter');
+const commentaryRouter = require('./routes/commentaryRouter');
 const usersRouter = require('./routes/usersRouter');
-const client = require('./services/client');
 
-
-
-
-// declarations
-// ...
-const client = new client({
-    user: process.env.DB_USERNAME,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME, 
-    password: process.env.DB_PASSWORD,
-    port: 5432,
-});
 
 
 // declarations
