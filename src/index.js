@@ -7,7 +7,19 @@ const commentaryRouter = require('./routes/commentaryRouter')
 const usersRouter = require('./routes/usersRouter')
 
 
+const { Client } = require('pg');
 
+// declarations
+// ...
+const client = new Client({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'blogbrief', 
+    password: '0125',
+    port: 5432,
+});
+
+client.connect();
 // declarations
 const app = express();
 const port = 8000;
