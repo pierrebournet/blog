@@ -2,9 +2,9 @@
 const { json } = require('express');
 const express = require('express');
 require('dotenv').config()
-const ticketsRouter = require('./routes/ticketsRouter')
+const articlesRouter = require('./routes/articlesRouter')
+const commentaryRouter = require('./routes/commentaryRouter')
 const usersRouter = require('./routes/usersRouter')
-
 
 
 
@@ -36,7 +36,8 @@ app.use(function (req, res, next) {
 
 // routes Ticket
 
-app.use('/api/tickets', ticketsRouter);
+app.use('/api/articles', articlesRouter);
+app.use('/api/commentary', commentaryRouter);
 app.use('/api/users', usersRouter);
 
 app.all('*', function (req, res) {
