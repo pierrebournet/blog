@@ -4,22 +4,23 @@ const express = require('express');
 require('dotenv').config()
 const articlesRouter = require('./routes/articlesRouter')
 const commentaryRouter = require('./routes/commentaryRouter')
-const usersRouter = require('./routes/usersRouter')
+const usersRouter = require('./routes/usersRouter');
+const client = require('./services/client');
 
 
-const { Client } = require('pg');
+
 
 // declarations
 // ...
-const client = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'blogbrief', 
-    password: '0125',
+const client = new client({
+    user: process.env.DB_USERNAME,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME, 
+    password: process.env.DB_PASSWORD,
     port: 5432,
 });
 
-client.connect();
+
 // declarations
 const app = express();
 const port = 8000;
@@ -48,8 +49,8 @@ app.use(function (req, res, next) {
 
 // routes Ticket
 
-app.use('/api/articles', articlesRouter);
-app.use('/api/commentary', commentaryRouter);
+//app.use('/api/articles', articlesRouter);
+//app.use('/api/commentary', commentaryRouter);
 app.use('/api/users', usersRouter);
 
 app.all('*', function (req, res) {

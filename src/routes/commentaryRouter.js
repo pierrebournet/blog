@@ -7,12 +7,12 @@ const authenticateJWT = require('../middlewares/auth.js')
 
 
 
-
+// Création d'un routeur pour gérer les commentaires d'un blog
 commentaryRouter.get('/', authenticateJWT, async (req, res) => {
-
+// Récupération de tous les commentaires dans la base de données
     try {
         const data = await client.query('SELECT * FROM blogbrief');
-
+// Retourne une réponse JSON avec les commentaires
         res.status(200).json(
             {
                 status: "success",
@@ -21,6 +21,7 @@ commentaryRouter.get('/', authenticateJWT, async (req, res) => {
         )
     }
     catch (err) {
+        // Retourne une erreur 500 en cas d'erreur côté serveur
         res.status(500).json(
             {
                 status: "fail",
@@ -31,7 +32,7 @@ commentaryRouter.get('/', authenticateJWT, async (req, res) => {
     }
 })
 
-
+// Récupération d'un commentaire spécifique en fonction de son ID
 commentaryRouter.get('/:id', authenticateJWT, async (req, res) => {
     const blogbriefId = req.params.id
 
@@ -39,6 +40,7 @@ commentaryRouter.get('/:id', authenticateJWT, async (req, res) => {
         try {
             const data = await client.query('SELECT * FROM blogbrief WHERE id=$1', [blogbriefId]);
             if (data.rows.length === 1) {
+                // Retourne une réponse JSON avec le commentaire
                 res.status(200).json(
                     {
                         status: "success",
@@ -47,6 +49,7 @@ commentaryRouter.get('/:id', authenticateJWT, async (req, res) => {
                 )
             }
             else {
+                // Retourne une erreur 404 si l'ID ne correspond à aucun commentaire
                 res.status(404).json(
                     {
                         status: "fail",
@@ -66,6 +69,7 @@ commentaryRouter.get('/:id', authenticateJWT, async (req, res) => {
         }
     }
     else {
+        // Retourne une erreur 404 si l'ID n'est pas un nombre
         res.status(404).json(
             {
                 status: "fail",
@@ -75,7 +79,7 @@ commentaryRouter.get('/:id', authenticateJWT, async (req, res) => {
     }
 })
 
-
+// Ajout d'un commentaire avec un message et un ID utilisateurx
 commentaryRouter.post('/', authenticateJWT, async (req, res) => {
     console.log(req.body);
 
@@ -191,8 +195,8 @@ commentaryRouter.put('/:id', authenticateJWT, async (req, res) => {
             if (updateDone === true || updateDone === false) {
 
                 try {
-                    const commentaryData = await client.query('SELECT id,user_id FROM blogbrief WHERE id=$1', [updateId]);
-                    if (test !== commentaryData.rows[0]['userId']) {
+                    const ticketData = await client.query('SELECT id,user_id FROM blogbrief WHERE id=$1', [updateId]);
+                    if (test !== ticketData.rows[0]['userId']) {
                         res.status(404).json(
                             {
                                 status: "FAIL",
