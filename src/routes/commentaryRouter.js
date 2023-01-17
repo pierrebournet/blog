@@ -1,6 +1,6 @@
 
 const express = require('express');
-const client = require('../client');
+const client = require('../services/client');
 const commentaryRouter = express.Router();
 const authenticateJWT = require('../middlewares/auth.js')
 
