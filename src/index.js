@@ -12,7 +12,7 @@ const usersRouter = require('./routes/usersRouter')
 
 // declarations
 const app = express();
-const port = 8080;
+const port = 8000;
 
 
 
