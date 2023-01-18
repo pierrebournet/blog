@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const UsersServices = require('../services/usersServices');
+const UsersServices = require('../services/usersServices')
 
 const accessTokenSecret= process.env.ACCESTOKENSECRET;
-
 const usersService = new UsersServices();
+
 
 class UsersController{
     async login(req, res)
@@ -12,7 +12,8 @@ class UsersController{
         const name = req.body.name;
         const password = req.body.password
         try {
-            const user = await usersService.getUserByName(name);  // client.query('SELECT * FROM users WHERE name=$1', [name]);
+            const user = await usersService.getUserByName(name); 
+            console.log(user);
     
             if (user) {
                 bcrypt.compare(password, user.password, async function (err, result) {
@@ -59,11 +60,12 @@ class UsersController{
         }
     }
 
+
+
     register(req, res)
     {
         const name = req.body.name;
         const password = req.body.password
-        console.log(req.body);
         bcrypt.hash(password, 10, async function (err, hash) {
             try {
                 const data = await usersService.addUser(name, hash);

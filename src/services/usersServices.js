@@ -12,8 +12,15 @@ class UsersServices {
     }
 
     async addUser(name, hash) {
+        const add=await client.query('INSERT INTO users (name, password) VALUES ($1, $2) returning *', [name, hash]);
         console.log(name, hash)
+if (add.rowCount>0)
+{
+    return add.rows[0]
+}
+return undefined
     }
 }
+
 
 module.exports = UsersServices
