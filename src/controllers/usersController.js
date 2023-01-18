@@ -1,16 +1,12 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-<<<<<<< HEAD
 const UsersServices = require('../services/usersServices')
 
-const accessTokenSecret= process.env.ACCESTOKENSECRET;
-=======
 const UsersServices = require('../services/usersServices');
 require('dotenv').config()
 
 const accessTokenSecret= process.env.accessTokenSecret;
 
->>>>>>> 37bab175ced70c9a743d8452af6fe3e7cb82edab
 const usersService = new UsersServices();
 
 
