@@ -18,7 +18,7 @@ class UsersController{
             if (user) {
                 bcrypt.compare(password, user.password, async function (err, result) {
     
-                    if (result == true) {
+                    if (result) {
                         const accessToken = jwt.sign({ userId: user.id }, accessTokenSecret);
     
                         res.status(200).json({
