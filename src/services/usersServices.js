@@ -1,3 +1,4 @@
+
 class UsersServices {
     async getUserByName(name) { 
         const data = await client.query('SELECT * FROM users WHERE username = $1', [name]);
