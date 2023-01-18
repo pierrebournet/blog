@@ -11,7 +11,7 @@ const authenticateJWT = require('../middlewares/auth.js')
 commentaryRouter.get('/', authenticateJWT, async (req, res) => {
 // Récupération de tous les commentaires dans la base de données
     try {
-        const data = await client.query('SELECT * FROM blogbrief');
+        const data = await client.query('SELECT * FROM commentary');
 // Retourne une réponse JSON avec les commentaires
         res.status(200).json(
             {
@@ -38,7 +38,7 @@ commentaryRouter.get('/:id', authenticateJWT, async (req, res) => {
 
     if (!Number.isNaN(Number(blogbriefId))) {
         try {
-            const data = await client.query('SELECT * FROM blogbrief WHERE id=$1', [blogbriefId]);
+            const data = await client.query('SELECT * FROM commentary WHERE id=$1', [blogbriefId]);
             if (data.rows.length === 1) {
                 // Retourne une réponse JSON avec le commentaire
                 res.status(200).json(
@@ -90,7 +90,7 @@ commentaryRouter.post('/', authenticateJWT, async (req, res) => {
 
     if (mess && userId != null) {
         try {
-            const data = await client.query('INSERT INTO blogbrief (message, user_id) VALUES ($1,$2) returning *', [mess, userId]);
+            const data = await client.query('INSERT INTO commentary (message, user_id) VALUES ($1,$2) returning *', [mess, userId]);
 
             res.status(201).json(
                 {
@@ -127,7 +127,7 @@ commentaryRouter.delete('/:id', authenticateJWT, async (req, res) => {
 
     if (!Number.isNaN(Number(deleteId))) {
         try {
-            const ticketData = await client.query('SELECT id, user_id FROM blogbrief WHERE id=$1', [deleteId]);
+            const ticketData = await client.query('SELECT id, user_id FROM commentary WHERE id=$1', [deleteId]);
             if (test !== ticketData.rows[0]['userId']) {
                 res.status(404).json(
                     {
@@ -138,7 +138,7 @@ commentaryRouter.delete('/:id', authenticateJWT, async (req, res) => {
 
             }
             else {
-                const data = await client.query('DELETE from blogbrief WHERE id= $1', [deleteId])
+                const data = await client.query('DELETE from commentary WHERE id= $1', [deleteId])
 
                 if (data.rowCount === 1) {
                     res.status(200).json(
@@ -195,7 +195,7 @@ commentaryRouter.put('/:id', authenticateJWT, async (req, res) => {
             if (updateDone === true || updateDone === false) {
 
                 try {
-                    const ticketData = await client.query('SELECT id,user_id FROM blogbrief WHERE id=$1', [updateId]);
+                    const ticketData = await client.query('SELECT id,user_id FROM commentary WHERE id=$1', [updateId]);
                     if (test !== ticketData.rows[0]['userId']) {
                         res.status(404).json(
                             {
@@ -206,7 +206,7 @@ commentaryRouter.put('/:id', authenticateJWT, async (req, res) => {
 
                     }
                     else {
-                        const data = await client.query('UPDATE blogbrief SET  done = $3, message = $1 WHERE id = $2 RETURNING *', [updateMess, updateId, updateDone])
+                        const data = await client.query('UPDATE commentary SET  done = $3, message = $1 WHERE id = $2 RETURNING *', [updateMess, updateId, updateDone])
 
                         if (data.rowCount > 0) {
                             res.status(201).json({

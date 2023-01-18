@@ -6,12 +6,11 @@ const authenticateJWT = require('../middlewares/auth.js')
 
 
 
-
-
-articlesRouter.get('/', authenticateJWT, async (req, res) => {
+// Création d'un routeur pour gérer les articles d'un blog
+articlesRouter.get('/', async (req, res) => {
 
     try {
-        const data = await client.query('SELECT * FROM blogbrief');
+        const data = await client.query('SELECT * FROM articles');
 
         res.status(200).json(
             {
@@ -32,12 +31,13 @@ articlesRouter.get('/', authenticateJWT, async (req, res) => {
 })
 
 
-articlesRouter.get('/:id', authenticateJWT, async (req, res) => {
+// Récupération d'un article spécifique en fonction de son ID
+articlesRouter.get('/:id', async (req, res) => {
     const articlesId = req.params.id
 
     if (!Number.isNaN(Number(articlesId))) {
         try {
-            const data = await client.query('SELECT * FROM blogbrief WHERE id=$1', [articlesId]);
+            const data = await client.query('SELECT * FROM articles WHERE id=$1', [articlesId]);
             if (data.rows.length === 1) {
                 res.status(200).json(
                     {
@@ -76,6 +76,8 @@ articlesRouter.get('/:id', authenticateJWT, async (req, res) => {
 })
 
 
+
+// Création d'un article
 articlesRouter.post('/', authenticateJWT, async (req, res) => {
     console.log(req.body);
 
@@ -86,7 +88,7 @@ articlesRouter.post('/', authenticateJWT, async (req, res) => {
 
     if (mess && userId != null) {
         try {
-            const data = await client.query('INSERT INTO blogbrief (message, user_id) VALUES ($1,$2) returning *', [mess, userId]);
+            const data = await client.query('INSERT INTO articles (message, user_id) VALUES ($1,$2) returning *', [mess, userId]);
 
             res.status(201).json(
                 {
@@ -117,13 +119,14 @@ articlesRouter.post('/', authenticateJWT, async (req, res) => {
 })
 
 
+// Suppression d'un article
 articlesRouter.delete('/:id', authenticateJWT, async (req, res) => {
     const deleteId = req.params.id
     const test = req.userId
 
     if (!Number.isNaN(Number(deleteId))) {
         try {
-            const blogbriefData = await client.query('SELECT id,user_id FROM tickets WHERE id=$1', [deleteId]);
+            const blogbriefData = await client.query('SELECT id,user_id FROM articles WHERE id=$1', [deleteId]);
             if (test !== blogbriefData.rows[0]['userId']) {
                 res.status(404).json(
                     {
@@ -134,7 +137,7 @@ articlesRouter.delete('/:id', authenticateJWT, async (req, res) => {
 
             }
             else {
-                const data = await client.query('DELETE from blogbrief WHERE id= $1', [deleteId])
+                const data = await client.query('DELETE from articles WHERE id= $1', [deleteId])
 
                 if (data.rowCount === 1) {
                     res.status(200).json(
@@ -179,6 +182,7 @@ articlesRouter.delete('/:id', authenticateJWT, async (req, res) => {
 )
 
 
+// Modification d'un article
 articlesRouter.put('/:id', authenticateJWT, async (req, res) => {
 
     const updateId = req.params.id
@@ -191,7 +195,7 @@ articlesRouter.put('/:id', authenticateJWT, async (req, res) => {
             if (updateDone === true || updateDone === false) {
 
                 try {
-                    const articlesData = await client.query('SELECT id,user_id FROM blogbrief WHERE id=$1', [updateId]);
+                    const articlesData = await client.query('SELECT id,user_id FROM articles WHERE id=$1', [updateId]);
                     if (test !== articlesData.rows[0]['userId']) {
                         res.status(404).json(
                             {
@@ -202,7 +206,7 @@ articlesRouter.put('/:id', authenticateJWT, async (req, res) => {
 
                     }
                     else {
-                        const data = await client.query('UPDATE blogbrief SET  done = $3, message = $1 WHERE id = $2 RETURNING *', [updateMess, updateId, updateDone])
+                        const data = await client.query('UPDATE articles SET  done = $3, message = $1 WHERE id = $2 RETURNING *', [updateMess, updateId, updateDone])
 
                         if (data.rowCount > 0) {
                             res.status(201).json({
