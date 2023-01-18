@@ -217,7 +217,7 @@ commentaryRouter.put('/:id', authenticateJWT, async (req, res) => {
                             res.status(404).json(
                                 {
                                     status: "FAIL",
-                                    message: "Aucun ticket ne correspond à cet id"
+    
                                 }
                             )
                         }
