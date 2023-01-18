@@ -1,4 +1,6 @@
 
+const client = require('./client');
+
 class CommentaryServices {
     async getByCommentary(commentary) {
         const data = await client.query('SELECT * FROM commentary WHERE users_id= $1', [users_id]);

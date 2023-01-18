@@ -63,6 +63,7 @@ class UsersController{
     {
         const name = req.body.name;
         const password = req.body.password
+        console.log(req.body);
         bcrypt.hash(password, 10, async function (err, hash) {
             try {
                 const data = await usersService.addUser(name, hash);
