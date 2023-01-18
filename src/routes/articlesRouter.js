@@ -6,9 +6,8 @@ const authenticateJWT = require('../middlewares/auth.js')
 
 
 
-
-
-articlesRouter.get('/', authenticateJWT, async (req, res) => {
+// Création d'un routeur pour gérer les articles d'un blog
+articlesRouter.get('/', async (req, res) => {
 
     try {
         const data = await client.query('SELECT * FROM articles');
@@ -32,7 +31,7 @@ articlesRouter.get('/', authenticateJWT, async (req, res) => {
 })
 
 
-articlesRouter.get('/:id', async (req, res) => {
+articlesRouter.get('/:id', authenticateJWT, async (req, res) => {
     const articlesId = req.params.id
 
     if (!Number.isNaN(Number(articlesId))) {
@@ -76,6 +75,8 @@ articlesRouter.get('/:id', async (req, res) => {
 })
 
 
+
+// Création d'un article
 articlesRouter.post('/', authenticateJWT, async (req, res) => {
     console.log(req.body);
 
@@ -117,6 +118,7 @@ articlesRouter.post('/', authenticateJWT, async (req, res) => {
 })
 
 
+// Suppression d'un article
 articlesRouter.delete('/:id', authenticateJWT, async (req, res) => {
     const deleteId = req.params.id
     const test = req.userId
@@ -179,7 +181,7 @@ articlesRouter.delete('/:id', authenticateJWT, async (req, res) => {
 )
 
 
-articlesRouter.put('/:id', async (req, res) => {
+articlesRouter.put('/:id', authenticateJWT, async (req, res) => {
 
     const updateId = req.params.id
     const updateMess = req.body.message

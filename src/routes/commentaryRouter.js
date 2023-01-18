@@ -11,7 +11,7 @@ const authenticateJWT = require('../middlewares/auth.js')
 commentaryRouter.get('/', authenticateJWT, async (req, res) => {
 // Récupération de tous les commentaires dans la base de données
     try {
-        const data = await client.query('SELECT * FROM blogbrief');
+        const data = await client.query('SELECT * FROM commentary');
 // Retourne une réponse JSON avec les commentaires
         res.status(200).json(
             {
