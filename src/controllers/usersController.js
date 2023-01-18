@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UsersServices = require('../services/usersServices');
+require('dotenv').config()
 
-const accessTokenSecret= process.env.ACCESTOKENSECRET;
+const accessTokenSecret= process.env.accessTokenSecret;
 
 const usersService = new UsersServices();
 
@@ -63,9 +64,9 @@ class UsersController{
     {
         const name = req.body.name;
         const password = req.body.password
-        console.log(req.body);
         bcrypt.hash(password, 10, async function (err, hash) {
             try {
+                console.log("test", req.body);
                 const data = await usersService.addUser(name, hash);
     
                 res.status(201).json(
