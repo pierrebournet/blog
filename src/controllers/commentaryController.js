@@ -56,34 +56,6 @@ const getCommentaryByUserId = async (userId) => {
         console.log(err.stack)
     }
 }
-
-
-//ajouter un nouveau commentaire 
-
-const addCommentary = async (req, res) => {
-    const commentary = req.body;
-    try {
-        const data = await CommentaryServices.addCommentary(commentary);
-        res.status(201).json(
-            {
-                status: "success",
-                message: "commentaire ajouté",
-                data: data
-            }
-        )
-    }
-    catch (err) {
-
-        res.status(500).json(
-            {
-                status: "fail",
-                message: "erreur serveur"
-            }
-        )
-        console.log(err.stack)
-    }
-}
-
 //modifier un commentaire
 
 const updateCommentary = async (req, res) => {

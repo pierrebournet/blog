@@ -12,13 +12,12 @@ class UsersServices {
     }
 
     async addUser(name, hash) {
-        const data=await client.query('INSERT INTO users (name, password) VALUES ($1, $2) ', [name, hash]);
-       // console.log(name, hash)
-if (data.rowCount>0)
-{
-    return data.rows[0]
-}
-return undefined
+        const data = await client.query('INSERT INTO users (name, password) VALUES ($1,$2)', [name, hash]);
+        //console.log(name, hash)
+        if (data.rowCount > 0) {
+            return data.rows[0]
+        }
+        return undefined
     }
 }
 

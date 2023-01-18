@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-const UsersServices = require('../services/usersServices');
+const UsersServices = require('../services/usersServices')
 require('dotenv').config()
 
 const accessTokenSecret= process.env.accessTokenSecret;
