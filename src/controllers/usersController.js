@@ -11,6 +11,7 @@ const usersService = new UsersServices();
 class UsersController{
     async login(req, res)
     {
+        console.log("test");
         const name = req.body.name;
         const password = req.body.password
         try {
