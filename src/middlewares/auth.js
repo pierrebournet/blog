@@ -3,9 +3,9 @@ require('dotenv').config()
 const accessTokenSecret= process.env.accessTokenSecret
 
 const authenticateJWT = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+     const authHeader = req.headers.authorization;
 
-    if (authHeader) {
+     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
         jwt.verify(token, accessTokenSecret, (err, token) => {
@@ -17,7 +17,9 @@ const authenticateJWT = (req, res, next) => {
         });
     } else {
         res.sendStatus(401);
-    }
-};
+    } 
+  
+    };
+
 
 module.exports = authenticateJWT

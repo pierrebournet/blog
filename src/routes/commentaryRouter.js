@@ -36,7 +36,7 @@ commentaryRouter.get('/', authenticateJWT, async (req, res) => {
 commentaryRouter.get('/:id', authenticateJWT, async (req, res) => {
     const commentaryId = req.params.id
 
-    if (!Number.isNaN(Number(blogbriefId))) {
+    if (!Number.isNaN(Number(commentary))) {
         try {
             const data = await client.query('SELECT * FROM commentary WHERE id=$1', [commentaryId]);
             if (data.rows.length === 1) {
