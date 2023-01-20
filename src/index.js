@@ -33,13 +33,14 @@ app.use(function (req, res, next) {
     next();
 });
 
-// routes Ticket
+// routes blog
 
 app.use('/api/articles', articlesRouter);
 app.use('/api/commentary', commentaryRouter);
 app.use('/api/users', usersRouter);
 
-app.all('*', function (req, res) {
+app.all('*', async (req, res)=>{
+    console.log(req.method,req.originalUrl);
     res.status(404).end("not found");
 });
 
