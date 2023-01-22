@@ -14,6 +14,7 @@ commentaryRouter.get('/',
 )
 
 commentaryRouter.get('/:id',
+    authenticateJWT,
     commentaryController.getCommentaryById
 )
 
@@ -24,13 +25,13 @@ commentaryRouter.post('/',
 )
 //modifier un commentaire
 
-commentaryRouter.put('/:id', 
+commentaryRouter.put('/:id',
     authenticateJWT,
     commentaryController.editCommentary
 )
 
 // Suppression d'un commentaire
-commentaryRouter.delete('/:id', 
+commentaryRouter.delete('/:id',
     authenticateJWT,
     commentaryController.deleteCommentary
 )
